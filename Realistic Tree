@@ -1,0 +1,58 @@
+import turtle
+import random
+
+
+def draw_tree(branch_length, decrease, angle, t, noise):
+  if branch_length > 10:
+    # Draw the initial branch
+    t.pensize(branch_length / 10 if branch_length / 10 > 1 else 1)
+    # pensize here indicates that you want the side of the line to decerase by 10% each time you grow a new branch.
+    t.forward(branch_length)
+    new_branch_length = branch_length * decrease
+    if noise > 0:
+      new_branch_length *= random.uniform(1 - noise, 1 + noise)
+
+    new_angle = angle + random.uniform(-noise, noise)
+
+    t.left(new_angle)
+    draw_tree(new_branch_length, decrease, angle, t, noise)
+    t.right(new_angle)
+
+    t.right(new_angle)
+    draw_tree(new_branch_length, decrease, angle, t, noise)
+    t.left(new_angle)
+
+    t.backward(branch_length)
+
+def main():
+  canvas_color = (232, 210, 210)
+  pen_color = (0, 0, 0)
+  canvas_size = (800, 800)
+  turtle.tracer(0, 0) 
+  t = turtle.Turtle()
+  t.speed(0)
+  t.color(pen_color)
+  t.pensize(1)
+
+  my_win = turtle.Screen()
+  my_win.setup(canvas_size[0], canvas_size[1])
+  my_win.colormode(255)
+  my_win.bgcolor(canvas_color)
+
+  t.up()
+  t.goto(0, -canvas_size[1] // 2 + 20)
+  t.left(90)
+  t.down()
+
+  draw_tree(100, 0.8, 15, t, 0.2)  
+  #the first number is your starting length of the tree.
+  #the second number is the decrease of the length of the branches.
+  #the third number is the angle of the branches. Try this number at 90, at 75, and at 45
+  #the fourth number is the turtle.
+  #the fifth number is the noise of the branches. As this number increases, the weirder the tree will get
+
+  turtle.update() 
+  turtle.done()  
+
+if __name__ == "__main__":
+  main()
