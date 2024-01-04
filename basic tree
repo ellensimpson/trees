@@ -1,0 +1,49 @@
+import turtle
+
+# t here is referenceing the turtle package. so when you see t.forward, the langauge essentially means using the turtle package, move the 'turtle'
+def draw_tree(branch_length, t):
+  if branch_length > 10:
+    #t.pensize(branch_length / 10 if branch_length / 10 > 1 else 1) 
+#this function dictates the thickness of the trunk. Remove the # in front of this statement to see its impacts
+    t.forward(branch_length)
+    new_branch_length = branch_length * 0.75
+
+    t.left(25)
+    draw_tree(new_branch_length, t)
+    t.right(50)
+    draw_tree(new_branch_length, t)
+    t.left(25)
+
+    t.backward(branch_length)
+
+
+def main():
+  canvas_color = (232, 210, 210)
+  pen_color = (0, 0, 0)
+  canvas_size = (800, 800)
+
+  turtle.tracer(0, 0)
+  t = turtle.Turtle()
+  t.speed(0)
+  t.color(pen_color)
+  t.pensize(1)
+
+  my_win = turtle.Screen()
+  my_win.setup(canvas_size[0], canvas_size[1])
+  my_win.colormode(255)
+  my_win.bgcolor(canvas_color)
+
+  t.up()
+  t.goto(0, -canvas_size[1] // 2 + 20) 
+#this makes sure that the tree always starts in the bottom middle of the canvas, where canvas size is represents as 0, 1 (where zero is the first 800 pixel measurement of length, and [1] represents the second 800 pixel measurement of width)
+  t.left(90)
+  t.down()
+
+  draw_tree(120, t)
+
+  turtle.update()
+  turtle.done()
+
+
+if __name__ == "__main__":
+  main()
